@@ -90,7 +90,7 @@ def predict_close_price(model, scaler, input_data):
 
 # ================================== Main Execution Block ==================================
 if __name__ == "__main__":
-    artifacts_dir = Path('model_building/ML/artifacts')
+    artifacts_dir = Path('src/ML/artifacts')
     model_dir = artifacts_dir / 'model'
     scaler_dir = artifacts_dir / 'scaler'
     
