@@ -5,25 +5,40 @@ import requests
 from sklearn.preprocessing import MinMaxScaler
 from pathlib import Path
 import numpy as np
-# from helper import load_model, load_scaler, get_data, predict_close_price
 from src.ML.ML_inference import load_model, load_scaler, get_data, predict_close_price
 
-
 app = Flask(__name__)
-
-
 
 # ========================== Load ML Models and Scalers ================================
 artifacts_dir = Path('src/ML/artifacts')
 model_dir = artifacts_dir / 'model'
 scaler_dir = artifacts_dir / 'scaler'
-btc_model_path = model_dir / "btcusdt_1d_linear_model.pkl"
-eth_model_path = model_dir / "ethusdt_1d_linear_model.pkl"
+
+# ---- Load Linear Regression Models ----
+btc_linear_model_path = model_dir / "btcusdt_1d_linear_model.pkl"
+eth_linear_model_path = model_dir / "ethusdt_1d_linear_model.pkl"
+
+btc_linear_model = load_model(btc_linear_model_path)
+eth_linear_model = load_model(eth_linear_model_path)
+
+# ---- Load XGBoost Models ----
+btc_xgb_model_path = model_dir / "btcusdt_1d_xgboost_model.pkl"
+eth_xgb_model_path = model_dir / "ethusdt_1d_xgboost_model.pkl"
+
+btc_xgb_model = load_model(btc_xgb_model_path)
+eth_xgb_model = load_model(eth_xgb_model_path)
+
+# ---- Load LightGBM Models ----
+btc_lgbm_model_path = model_dir / "btcusdt_1d_lgbm_model.pkl"
+eth_lgbm_model_path = model_dir / "ethusdt_1d_lgbm_model.pkl"
+
+btc_lgbm_model = load_model(btc_lgbm_model_path)
+eth_lgbm_model = load_model(eth_lgbm_model_path)
+
+# ---- Load Scalers (Assumed to be shared between models) ----
 btc_scaler_path = scaler_dir / "btcusdt_1d_scaler.pkl"
 eth_scaler_path = scaler_dir / "ethusdt_1d_scaler.pkl"
 
-btc_model = load_model(btc_model_path)
-eth_model = load_model(eth_model_path)
 btc_scaler = load_scaler(btc_scaler_path)
 eth_scaler = load_scaler(eth_scaler_path)
 
@@ -41,16 +56,19 @@ def predict():
         if crypto == 'bitcoin':
             input_data = get_data(symbol='BTCUSDT', start_date=start_date, end_date=end_date)
             if model_choice == 'linear_regression':
-                prediction = predict_close_price(btc_model, btc_scaler, input_data)
+                prediction = predict_close_price(btc_linear_model, btc_scaler, input_data)
             elif model_choice == 'xgboost':
-                prediction = predict_close_price(btc_model, btc_scaler, input_data)
+                prediction = predict_close_price(btc_xgb_model, btc_scaler, input_data)
+            elif model_choice == 'lightgbm':
+                prediction = predict_close_price(btc_lgbm_model, btc_scaler, input_data)
         elif crypto == 'ethereum':
             input_data = get_data(symbol='ETHUSDT', start_date=start_date, end_date=end_date)
             if model_choice == 'linear_regression':
-                prediction = predict_close_price(eth_model, eth_scaler, input_data)
-                
+                prediction = predict_close_price(eth_linear_model, eth_scaler, input_data)
             elif model_choice == 'xgboost':
-                prediction = predict_close_price(btc_model, btc_scaler, input_data)
+                prediction = predict_close_price(eth_xgb_model, eth_scaler, input_data)
+            elif model_choice == 'lightgbm':
+                prediction = predict_close_price(eth_lgbm_model, eth_scaler, input_data)
         
     return render_template('index.html', prediction=prediction)
 

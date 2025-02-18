@@ -1,20 +1,22 @@
 """
-This script trains a machine learning model (Linear Regression or XGBoost) 
+This script trains a machine learning model (Linear Regression, XGBoost, or LightGBM) 
 for cryptocurrency price prediction. It preprocesses the data, scales features, 
 trains the model, saves it along with the scaler, and evaluates its performance.
 """
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from xgboost import XGBRegressor
 import pickle
 from pathlib import Path
-from sklearn.metrics import mean_squared_error, mean_absolute_error, root_mean_squared_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_squared_error as mse_metric
 from sklearn.preprocessing import MinMaxScaler
+import lightgbm as lgb  # <-- Added import for LightGBM
+
+# Note: If you prefer using the scikit-learn API for LightGBM, you can alternatively do:
+# from lightgbm import LGBMRegressor
 
 # ===================== Train Model =====================
-
 def train_model(data_path, model_path, scaler_path, model_type='linear'):
     """
     Train a machine learning model for price prediction.
@@ -23,7 +25,7 @@ def train_model(data_path, model_path, scaler_path, model_type='linear'):
         data_path (str): Path to the processed data CSV file.
         model_path (str): Path to save the trained model.
         scaler_path (str): Path to save the MinMaxScaler.
-        model_type (str): Type of model ('linear' for Linear Regression, 'xgboost' for XGBoost).
+        model_type (str): Type of model ('linear' for Linear Regression, 'xgboost' for XGBoost, 'lightgbm' for LightGBM).
 
     Returns:
         None
@@ -48,7 +50,6 @@ def train_model(data_path, model_path, scaler_path, model_type='linear'):
     y_train, y_test = y[:split_point], y[split_point:]
 
     # ===================== Feature Scaling =====================
-    
     scaler_X = MinMaxScaler()
     X_train_scaled = scaler_X.fit_transform(X_train)
     X_test_scaled = scaler_X.transform(X_test)
@@ -64,8 +65,15 @@ def train_model(data_path, model_path, scaler_path, model_type='linear'):
         model = LinearRegression()
     elif model_type == 'xgboost':
         model = XGBRegressor()
+    elif model_type == 'lgbm':
+        # Using the scikit-learn API for LightGBM
+        model = lgb.LGBMRegressor(objective='regression',
+                                  learning_rate=0.01,
+                                  n_estimators=1000,
+                                  num_leaves=31,
+                                  verbosity=-1)
     else:
-        raise ValueError('Unsupported model type. Choose "linear" or "xgboost".')
+        raise ValueError('Unsupported model type. Choose "linear", "xgboost", or "lightgbm".')
 
     model.fit(X_train_scaled, y_train)
 
@@ -78,7 +86,6 @@ def train_model(data_path, model_path, scaler_path, model_type='linear'):
     # Evaluate model performance
     evaluation(X_test_scaled, y_test, model_path)
 
-
 # ===================== Evaluate Model =====================
 def evaluation(X_test_scaled, y_test, model_path):
     """
@@ -87,7 +94,7 @@ def evaluation(X_test_scaled, y_test, model_path):
     Parameters:
         X_test_scaled (ndarray): Scaled test dataset features.
         y_test (Series): Actual target values.
-        model_path (str): Path to the saved model file.
+        model_path (Path): Path to the saved model file.
 
     Returns:
         tuple: MSE, MAE, and RMSE values.
@@ -99,7 +106,8 @@ def evaluation(X_test_scaled, y_test, model_path):
 
     mse = mean_squared_error(y_test, y_pred)
     mae = mean_absolute_error(y_test, y_pred)
-    rmse = root_mean_squared_error(y_test, y_pred)
+    # Using mean_squared_error with squared=False for RMSE
+    rmse = mean_squared_error(y_test, y_pred, squared=False)
 
     print(f"Model: {model_path.name}")
     print(f"Mean Squared Error: {mse}")
