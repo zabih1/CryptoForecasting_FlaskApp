@@ -3,3 +3,6 @@ numpy
 xgboost
 scikit-learn
 lightgbm
+flask
+requests
+torch

@@ -10,8 +10,8 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from src.prediction_pipeline.eth_prediction import eth_prediction_pipeline
-from src.prediction_pipeline.btc_prediction import btc_prediction_pipeline
+from model_building.prediction_pipeline.eth_prediction import eth_prediction_pipeline
+from model_building.prediction_pipeline.btc_prediction import btc_prediction_pipeline
 
 # ===================== Run Prediction Pipelines =====================
 def run_prediction_pipelines():

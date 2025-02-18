@@ -13,11 +13,7 @@ warnings.filterwarnings(
     category=FutureWarning
 )
 
-logging.basicConfig(
-    filename="src/DL/predictions.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+
 
 def load_torch_model(model_path):
     model = torch.load(model_path, map_location=torch.device('cpu'))

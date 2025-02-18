@@ -11,7 +11,6 @@ from pathlib import Path
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.preprocessing import MinMaxScaler
 import pickle
-import lightgbm as lgb  # <-- New import for LightGBM
 
 # ================================================================
 # 📌 Define Model Classes: RNN & LSTM
@@ -98,7 +97,7 @@ def train_model(data_path, model_path, scaler_path, model_type='rnn', coin=None)
     y_test = y_seq[train_seq_count:]
     
     # ================================================================
-    # Branch: Torch Models (RNN / LSTM) vs LightGBM Regressor
+    # Branch: Torch Models (RNN / LSTM)
     # ================================================================
     if model_type in ['rnn', 'lstm']:
         # Convert data to PyTorch tensors and create DataLoaders
@@ -192,61 +191,16 @@ def train_model(data_path, model_path, scaler_path, model_type='rnn', coin=None)
     
         print(f"\nRMSE: {rmse:.4f}")
         print(f"MAE: {mae:.4f}")
-
-    # ===========================================
-    # Branch: LightGBM Regressor
-    # ===========================================
-        
-    elif model_type == 'lgbm':
-        print(f"Training LIGHTGBM regressor for {coin_symbol}")
-        X_train_flat = X_train.reshape(X_train.shape[0], -1)
-        X_test_flat = X_test.reshape(X_test.shape[0], -1)
-        
-        lgb_params = {
-            'objective': 'regression',
-            'metric': 'rmse',
-            'boosting_type': 'gbdt',
-            'learning_rate': 0.01,
-            'num_leaves': 31,
-            'verbose': -1
-        }
-        
-        lgb_train = lgb.Dataset(X_train_flat, label=y_train)
-        lgb_test = lgb.Dataset(X_test_flat, label=y_test, reference=lgb_train)
-        
-        model = lgb.train(
-            lgb_params,
-            lgb_train,
-            num_boost_round=1000,
-            valid_sets=[lgb_test],
-        )
-        
-        y_pred = model.predict(X_test_flat, num_iteration=model.best_iteration)
-        
-        y_pred_inv = y_scaler.inverse_transform(y_pred.reshape(-1, 1))
-        y_test_inv = y_scaler.inverse_transform(y_test.reshape(-1, 1))
-        
-        rmse = np.sqrt(mean_squared_error(y_test_inv, y_pred_inv))
-        mae = mean_absolute_error(y_test_inv, y_pred_inv)
-        
-        print(f"\nRMSE: {rmse:.4f}")
-        print(f"MAE: {mae:.4f}")
     else:
-        raise ValueError("Invalid model type. Choose 'rnn', 'lstm', or 'lgbm'.")
+        raise ValueError("Invalid model type. Choose 'rnn' or 'lstm'.")
     
     # ================================================================
     # Save Model and Scalers
     # ================================================================
-    if model_type == 'lgbm':
-        # Save LightGBM model as a text file
-        if model_path.suffix != '.txt':
-            model_path = model_path.with_suffix('.txt')
-        model.save_model(str(model_path))
-    else:
-        # Save PyTorch model
-        if model_path.suffix != '.pth':
-            model_path = model_path.with_suffix('.pth')
-        torch.save(model, model_path)
+    # Save PyTorch model
+    if model_path.suffix != '.pth':
+        model_path = model_path.with_suffix('.pth')
+    torch.save(model, model_path)
     
     if scaler_path.suffix != '.pkl':
         scaler_path = scaler_path.with_suffix('.pkl')
@@ -254,4 +208,3 @@ def train_model(data_path, model_path, scaler_path, model_type='rnn', coin=None)
     scaler_dict = {'x_scaler': x_scaler, 'y_scaler': y_scaler}
     with open(scaler_path, 'wb') as f:
         pickle.dump(scaler_dict, f)
-

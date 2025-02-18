@@ -42,7 +42,7 @@ eth_scaler_path = scaler_dir / "ethusdt_1d_scaler.pkl"
 btc_scaler = load_scaler(btc_scaler_path)
 eth_scaler = load_scaler(eth_scaler_path)
 
-# ========================== Flask Routes =====================================
+
 @app.route('/', methods=['GET', 'POST'])
 def predict():
     prediction = None
