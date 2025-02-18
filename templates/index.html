@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Price Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <h2>Crypto Price Prediction</h2>
+    
+    <!-- Display prediction result if available -->
+    {% if prediction %}
+      <div class="result">{{ prediction }}</div>
+    {% endif %}
+    
+    <form method="post" action="{{ url_for('predict') }}">
+      <label for="model">Select Model:</label>
+      <select id="model" name="model">
+        <option value="linear_regression">Linear Regression</option>
+        <option value="xgboost">Xgboost</option>
+      </select>
+
+      <label for="crypto">Select Cryptocurrency:</label>
+      <select id="crypto" name="crypto">
+        <option value="bitcoin">Bitcoin</option>
+        <option value="ethereum">Ethereum</option>
+      </select>
+
+      <!-- Date Inputs -->
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" required />
+
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date" required />
+
+      <button type="submit">Predict</button>
+    </form>
+  </div>
+</body>
+</html>
