@@ -34,7 +34,11 @@ def eth_prediction_pipeline(symbol, interval, start_date, end_date):
     Returns:
         None
     """
+<<<<<<< HEAD
     base_dir = Path('src/ML')
+=======
+    base_dir = Path('model_building/ML')
+>>>>>>> origin/main
     raw_data_base_path = base_dir / 'data/raw_data'
     processed_data_base_path = base_dir / 'data/processed_data'
     artifacts_dir = base_dir / 'artifacts'
