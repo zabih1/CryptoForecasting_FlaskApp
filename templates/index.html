@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Prediction Hub</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="main-container">
+    <div class="glass-card">
+      <header class="app-header">
+        <h1>📈 Crypto Forecast</h1>
+        <p>AI-powered cryptocurrency predictions</p>
+      </header>
+
+      <form method="post" action="{{ url_for('predict') }}" class="prediction-form">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="model">Prediction Model</label>
+            <select id="model" name="model" class="glass-input">
+              <option value="linear_regression">Linear Regression</option>
+              <option value="xgboost">XGBoost</option>
+              <option value="lightgbm">LightGBM</option>
+              <option value="rnn">Recurrent Neural Network</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="crypto">Cryptocurrency</label>
+            <select id="crypto" name="crypto" class="glass-input">
+              <option value="bitcoin">Bitcoin (BTC)</option>
+              <option value="ethereum">Ethereum (ETH)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- <div class="input-group">
+            <label for="start_date">Start Date</label>
+            <input type="date" id="start_date" name="start_date" class="glass-input" required />
+          </div> -->
+
+          <div class="input-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" class="glass-input" required />
+          </div>
+        </div>
+
+        <button type="submit" class="predict-button">
+          🚀 Generate Prediction
+        </button>
+      </form>
+
+      {% if prediction %}
+      <div class="result-card">
+        <div class="result-header">
+          <h3>💡 Prediction Analysis</h3>
+          <div class="crypto-badge">{{ request.form.crypto | capitalize }}</div>
+        </div>
+        <div class="result-content">
+          <div class="result-item">
+            <span>Model:</span>
+            <strong>{{ request.form.model.replace('_', ' ') | capitalize }}</strong>
+          </div>
+          <div class="result-item">
+            <span>Predicted Price:</span>
+            <strong class="price">{{ prediction | round(2) }}</strong>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
