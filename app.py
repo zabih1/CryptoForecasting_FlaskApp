@@ -43,6 +43,10 @@ btc_scaler = load_scaler(btc_scaler_path)
 eth_scaler = load_scaler(eth_scaler_path)
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/main
 @app.route('/', methods=['GET'])
 def home():
     return render_template('index.html')
@@ -63,6 +67,23 @@ def predict():
 
         if crypto == 'bitcoin':
             input_data = get_data(symbol='BTCUSDT', date=date)
+<<<<<<< HEAD
+=======
+=======
+@app.route('/', methods=['GET', 'POST'])
+def predict():
+    prediction = None
+
+    if request.method == 'POST':
+        crypto = request.form['crypto']
+        model_choice = request.form['model']
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+
+        if crypto == 'bitcoin':
+            input_data = get_data(symbol='BTCUSDT', start_date=start_date, end_date=end_date)
+>>>>>>> origin/main
+>>>>>>> origin/main
             if model_choice == 'linear_regression':
                 prediction = predict_close_price(btc_linear_model, btc_scaler, input_data)
             elif model_choice == 'xgboost':
@@ -70,7 +91,15 @@ def predict():
             elif model_choice == 'lightgbm':
                 prediction = predict_close_price(btc_lgbm_model, btc_scaler, input_data)
         elif crypto == 'ethereum':
+<<<<<<< HEAD
             input_data = get_data(symbol='ETHUSDT', date=date)
+=======
+<<<<<<< HEAD
+            input_data = get_data(symbol='ETHUSDT', date=date)
+=======
+            input_data = get_data(symbol='ETHUSDT', start_date=start_date, end_date=end_date)
+>>>>>>> origin/main
+>>>>>>> origin/main
             if model_choice == 'linear_regression':
                 prediction = predict_close_price(eth_linear_model, eth_scaler, input_data)
             elif model_choice == 'xgboost':

@@ -32,6 +32,10 @@ def load_scaler(scaler_path):
 
 
 # =================== Data Fetching, Processing, and Prediction Functions ===================
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/main
 def get_data(symbol, interval='1d', date=None, limit=1000):
     url = f'https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}&limit={limit}'
     
@@ -39,6 +43,18 @@ def get_data(symbol, interval='1d', date=None, limit=1000):
     #     url += f'&startTime={int(pd.Timestamp(start_date).timestamp() * 1000)}'
     if date:
         url += f'&endTime={int(pd.Timestamp(date).timestamp() * 1000)}'
+<<<<<<< HEAD
+=======
+=======
+def get_data(symbol, interval='1d', start_date="2023-01-01", end_date="2025-02-06", limit=1000):
+    url = f'https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}&limit={limit}'
+    
+    if start_date:
+        url += f'&startTime={int(pd.Timestamp(start_date).timestamp() * 1000)}'
+    if end_date:
+        url += f'&endTime={int(pd.Timestamp(end_date).timestamp() * 1000)}'
+>>>>>>> origin/main
+>>>>>>> origin/main
     
     response = requests.get(url)
     
@@ -69,6 +85,13 @@ def get_data(symbol, interval='1d', date=None, limit=1000):
 
     df['price_range'] = df['high'] - df['low']
     df['close_to_open'] = df['close'] - df['open']
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
+>>>>>>> origin/main
     return df
 
 def process_input_data(df, scaler):
@@ -78,15 +101,32 @@ def process_input_data(df, scaler):
     
     # Select the latest available data point
     latest_data_df = pd.DataFrame([df[features].iloc[-1]], columns=features)
+<<<<<<< HEAD
     print(latest_data_df)
+=======
+<<<<<<< HEAD
+    print(latest_data_df)
+=======
+>>>>>>> origin/main
+>>>>>>> origin/main
     scaled_data = scaler.transform(latest_data_df)
     return scaled_data
 
 def predict_close_price(model, scaler, input_data):
     processed_data = process_input_data(input_data, scaler)
+<<<<<<< HEAD
 
     prediction = model.predict(processed_data)
 
+=======
+<<<<<<< HEAD
+
+    prediction = model.predict(processed_data)
+
+=======
+    prediction = model.predict(processed_data)
+>>>>>>> origin/main
+>>>>>>> origin/main
     return prediction[0]
 
 

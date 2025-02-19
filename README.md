@@ -91,6 +91,10 @@ Use the prediction pipelines:
   ```bash
   python DL/prediction_pipeline/prediction_pipeline.py
   ```
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/main
 
 ### Running Inference
 Use the inference scripts to generate `close price` predictions from saved models:
@@ -129,3 +133,8 @@ Use the inference scripts to generate `close price` predictions from saved model
 ## License
 
 This project is open-source and available under the MIT License.
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/main
+>>>>>>> origin/main
