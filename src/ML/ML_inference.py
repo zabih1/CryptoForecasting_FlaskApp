@@ -88,59 +88,59 @@ def predict_close_price(model, scaler, input_data):
     return prediction[0]
 
 
-# ================================== Main Execution Block ==================================
-if __name__ == "__main__":
-    artifacts_dir = Path('src/ML/artifacts')
-    model_dir = artifacts_dir / 'model'
-    scaler_dir = artifacts_dir / 'scaler'
+# # ================================== Main Execution Block ==================================
+# if __name__ == "__main__":
+#     artifacts_dir = Path('src/ML/artifacts')
+#     model_dir = artifacts_dir / 'model'
+#     scaler_dir = artifacts_dir / 'scaler'
     
-    model_dir.mkdir(parents=True, exist_ok=True)
-    scaler_dir.mkdir(parents=True, exist_ok=True)
+#     model_dir.mkdir(parents=True, exist_ok=True)
+#     scaler_dir.mkdir(parents=True, exist_ok=True)
 
-    # --------------------- Model File Paths ---------------------
-    # Linear Regression Models
-    btc_linear_model_path = model_dir / "btcusdt_1d_linear_model.pkl"
-    eth_linear_model_path = model_dir / "ethusdt_1d_linear_model.pkl"
+#     # --------------------- Model File Paths ---------------------
+#     # Linear Regression Models
+#     btc_linear_model_path = model_dir / "btcusdt_1d_linear_model.pkl"
+#     eth_linear_model_path = model_dir / "ethusdt_1d_linear_model.pkl"
     
-    # LightGBM Models (updated paths)
-    btc_lgbm_model_path = model_dir / "btcusdt_1d_lgbm_model.pkl"
-    eth_lgbm_model_path = model_dir / "ethusdt_1d_lgbm_model.pkl"
+#     # LightGBM Models (updated paths)
+#     btc_lgbm_model_path = model_dir / "btcusdt_1d_lgbm_model.pkl"
+#     eth_lgbm_model_path = model_dir / "ethusdt_1d_lgbm_model.pkl"
     
-    # Scaler Files (assumed to be the same for both model types)
-    btc_scaler_path = scaler_dir / "btcusdt_1d_scaler.pkl"
-    eth_scaler_path = scaler_dir / "ethusdt_1d_scaler.pkl"
+#     # Scaler Files (assumed to be the same for both model types)
+#     btc_scaler_path = scaler_dir / "btcusdt_1d_scaler.pkl"
+#     eth_scaler_path = scaler_dir / "ethusdt_1d_scaler.pkl"
 
-    # --------------------- Load Models and Scalers ---------------------
-    # Load Linear models
-    btc_linear_model = load_model(btc_linear_model_path)
-    eth_linear_model = load_model(eth_linear_model_path)
+#     # --------------------- Load Models and Scalers ---------------------
+#     # Load Linear models
+#     btc_linear_model = load_model(btc_linear_model_path)
+#     eth_linear_model = load_model(eth_linear_model_path)
     
-    # Load LightGBM models
-    btc_lgbm_model = load_model(btc_lgbm_model_path)
-    eth_lgbm_model = load_model(eth_lgbm_model_path)
+#     # Load LightGBM models
+#     btc_lgbm_model = load_model(btc_lgbm_model_path)
+#     eth_lgbm_model = load_model(eth_lgbm_model_path)
     
-    # Load scalers
-    btc_scaler = load_scaler(btc_scaler_path)
-    eth_scaler = load_scaler(eth_scaler_path)
+#     # Load scalers
+#     btc_scaler = load_scaler(btc_scaler_path)
+#     eth_scaler = load_scaler(eth_scaler_path)
 
-    # --------------------- Fetch Data ---------------------
-    btc_input_data = get_data(symbol='BTCUSDT', interval='1d')
-    eth_input_data = get_data(symbol='ETHUSDT', interval='1d')
+#     # --------------------- Fetch Data ---------------------
+#     btc_input_data = get_data(symbol='BTCUSDT', interval='1d')
+#     eth_input_data = get_data(symbol='ETHUSDT', interval='1d')
 
-    # --------------------- Make Predictions ---------------------
-    # Linear Regression predictions
-    btc_linear_prediction = predict_close_price(btc_linear_model, btc_scaler, btc_input_data)
-    eth_linear_prediction = predict_close_price(eth_linear_model, eth_scaler, eth_input_data)
+#     # --------------------- Make Predictions ---------------------
+#     # Linear Regression predictions
+#     btc_linear_prediction = predict_close_price(btc_linear_model, btc_scaler, btc_input_data)
+#     eth_linear_prediction = predict_close_price(eth_linear_model, eth_scaler, eth_input_data)
     
-    # LightGBM predictions
-    btc_lgbm_prediction = predict_close_price(btc_lgbm_model, btc_scaler, btc_input_data)
-    eth_lgbm_prediction = predict_close_price(eth_lgbm_model, eth_scaler, eth_input_data)
+#     # LightGBM predictions
+#     btc_lgbm_prediction = predict_close_price(btc_lgbm_model, btc_scaler, btc_input_data)
+#     eth_lgbm_prediction = predict_close_price(eth_lgbm_model, eth_scaler, eth_input_data)
 
-    # --------------------- Display Predictions ---------------------
-    print("Predictions using Linear Regression:")
-    print(f"Predicted Bitcoin Closing Price (Next Day): {btc_linear_prediction}")
-    print(f"Predicted Ethereum Closing Price (Next Day): {eth_linear_prediction}")
+#     # --------------------- Display Predictions ---------------------
+#     print("Predictions using Linear Regression:")
+#     print(f"Predicted Bitcoin Closing Price (Next Day): {btc_linear_prediction}")
+#     print(f"Predicted Ethereum Closing Price (Next Day): {eth_linear_prediction}")
 
-    print("\nPredictions using LightGBM:")
-    print(f"Predicted Bitcoin Closing Price (Next Day): {btc_lgbm_prediction}")
-    print(f"Predicted Ethereum Closing Price (Next Day): {eth_lgbm_prediction}")
+#     print("\nPredictions using LightGBM:")
+#     print(f"Predicted Bitcoin Closing Price (Next Day): {btc_lgbm_prediction}")
+#     print(f"Predicted Ethereum Closing Price (Next Day): {eth_lgbm_prediction}")

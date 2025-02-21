@@ -6,4 +6,3 @@ xgboost
 lightgbm
 requests
 pathlib
-pickle5

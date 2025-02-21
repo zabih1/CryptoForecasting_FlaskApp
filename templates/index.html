@@ -20,9 +20,6 @@
             <label for="model">Prediction Model</label>
             <select id="model" name="model" class="glass-input">
               <option value="linear_regression">Linear Regression</option>
-              <option value="xgboost">XGBoost</option>
-              <option value="lightgbm">LightGBM</option>
-              <option value="rnn">Recurrent Neural Network</option>
             </select>
           </div>
 
@@ -56,7 +53,7 @@
         <div class="result-content">
           <div class="result-item">
             <span>Model:</span>
-            <strong>{{ request.form.model.replace('_', ' ') | capitalize }}</strong>
+            <strong>Linear Regression</strong>
           </div>
           <div class="result-item">
             <span>Predicted Price:</span>
