@@ -2,7 +2,5 @@ Flask
 pandas
 numpy
 scikit-learn
-xgboost
-lightgbm
 requests
 pathlib
