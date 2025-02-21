@@ -1,8 +1,9 @@
+Flask
 pandas
 numpy
-xgboost
 scikit-learn
+xgboost
 lightgbm
-flask
 requests
-torch
+pathlib
+pickle5
