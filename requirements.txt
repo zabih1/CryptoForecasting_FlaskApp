@@ -1,6 +1,7 @@
+gunicorn
 Flask
 pandas
 numpy
 scikit-learn
 requests
-pathlib
+
