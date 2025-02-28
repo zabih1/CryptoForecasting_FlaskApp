@@ -1,7 +1,3 @@
-[Visit the App](https://cryptoforecasting-flaskapp-1.onrender.com/)
-
----
-
 # Crypto Forecasting Flask App
 
 A web application for predicting cryptocurrency prices using machine learning models.
