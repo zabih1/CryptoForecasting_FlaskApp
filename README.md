@@ -1,7 +1,7 @@
 # Crypto Forecasting Flask App
 
 A web application for predicting cryptocurrency prices using machine learning models.
-
+---
 ## Overview
 
 This project provides a Flask-based web application that offers cryptocurrency price forecasting using multiple machine learning models. The application supports predictions for Bitcoin (BTC/USDT) and Ethereum (ETH/USDT) using LightGBM, XGBoost, and Linear models.
